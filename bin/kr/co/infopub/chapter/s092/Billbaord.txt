@@ -1,0 +1,74 @@
+01: package kr.co.infopub.chapter.s092;
+02: import java.io.Serializable;
+03: public class Billbaord implements Serializable {
+04: 	private int rank;         // 순위
+05: 	private String song;      // 곡명
+06: 	private int  lastweek;    // 전주 순위
+07: 	private String imagesrc;  // 가수사진
+08: 	private String artistsrc; // 가수정보
+09: 	private String artist;    // 가수이름
+10: 	
+11: 	public Billbaord() {
+12: 	}
+13: 	
+14: 	public Billbaord(int rank, String song, int lastweek, String imagesrc,
+15: 			String artistsrc, String artist) {
+16: 		super();
+17: 		this.rank = rank;
+18: 		this.song = song;
+19: 		this.lastweek = lastweek;
+20: 		this.imagesrc = imagesrc;
+21: 		this.artistsrc = artistsrc;
+22: 		this.artist = artist;
+23: 	}
+24: 	public Billbaord(int rank, String song, int lastweek, String imagesrc, String artist) {
+25: 		super();
+26: 		this.rank = rank;
+27: 		this.song = song;
+28: 		this.lastweek = lastweek;
+29: 		this.imagesrc = imagesrc;
+30: 		this.artist = artist;
+31: 	}
+32: 	@Override
+33: 	public String toString() {
+34: 		return "[rank=" + rank + ", song=" + song + ", lastweek="
+35: 				+ lastweek + ", imagesrc=" + imagesrc 
+36: 				 + ", artist=" + artist+"]";
+37: 	}
+38: 	public int getRank() {
+39: 		return rank;
+40: 	}
+41: 	public void setRank(int rank) {
+42: 		this.rank = rank;
+43: 	}
+44: 	public String getSong() {
+45: 		return song;
+46: 	}
+47: 	public void setSong(String song) {
+48: 		this.song = song;
+49: 	}
+50: 	public int getLastweek() {
+51: 		return lastweek;
+52: 	}
+53: 	public void setLastweek(int lastweek) {
+54: 		this.lastweek = lastweek;
+55: 	}
+56: 	public String getImagesrc() {
+57: 		return imagesrc;
+58: 	}
+59: 	public void setImagesrc(String imagesrc) {
+60: 		this.imagesrc = imagesrc;
+61: 	}
+62: 	public String getArtistsrc() {
+63: 		return artistsrc;
+64: 	}
+65: 	public void setArtistsrc(String artistsrc) {
+66: 		this.artistsrc = artistsrc;
+67: 	}
+68: 	public String getArtist() {
+69: 		return artist;
+70: 	}
+71: 	public void setArtist(String artist) {
+72: 		this.artist = artist;
+73: 	}
+74: }

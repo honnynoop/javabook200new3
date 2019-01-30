@@ -1,0 +1,54 @@
+01: package kr.co.infopub.chapter.s092;
+02: 
+03: import java.io.FileWriter;
+04: import java.io.IOException;
+05: import java.io.PrintWriter;
+06: import java.text.SimpleDateFormat;
+07: import java.util.Date;
+08: import org.jsoup.Jsoup;
+09: import org.jsoup.nodes.Document;
+10: import org.jsoup.nodes.Element;
+11: import org.jsoup.select.Elements;
+12: 
+13: public class BillboardDriver {
+14: 	public String saveBillboard100(String today, String newUrls){
+15: 		 Document doc=null;
+16: 		 String fnames="billboard/";
+17: 		 String ss="";
+18: 	     try {
+19: 	    	 doc = Jsoup.connect(newUrls+today).get(); //GET
+20: 	    	 //button.chart-detail-header__date-selector-button 포함
+21: 	    	 //첫번째 엘리먼트
+22: 	    	 Element bDay = doc.select("button.chart-detail-header__date-selector-button").first();
+23: 	    	 ss+=bDay.outerHtml()+"\n";
+24: 	    	 //System.out.println("1--------------");
+25: 	    	 //div.chart-number-one__info 포함
+26: 	    	 //첫번째 엘리먼트
+27: 	    	 Element first = doc.select("div.chart-number-one__info").first();
+28: 	    	 ss+=first.outerHtml()+"\n";
+29: 	    	 //System.out.println("2--------------");
+30:              //div.chart-list-item 모든 엘리먼트
+31: 	    	 Elements links = doc.select("div.chart-list-item");
+32: 	         for (Element link : links) {
+33: 	        	 ss+=link.outerHtml()+"\n";
+34: 	             //System.out.println("---------------------------------------");
+35: 	         }
+36: 
+37: 		     //billboard/2018-09-14.html 저장
+38: 		     fnames=fnames+today+".html";
+39: 			 PrintWriter pw=new PrintWriter(
+40: 						    new FileWriter(fnames));
+41: 		     pw.print(ss);
+42: 		     pw.close();
+43: 	     } catch (IOException e) {
+44: 			System.out.println(e);
+45: 		 }
+46: 	     return fnames;
+47: 	}
+48: 	public String saveBillboard100(String newUrls){
+49: 	     //billboard/2018-09-14.txt 저장
+50: 	     SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+51: 	     String today=sdf.format(new Date());
+52: 	     return saveBillboard100(today,newUrls);
+53: 	}
+54: }

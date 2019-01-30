@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kr.co.infopub.chapter.s102.BillboardAccordianFxController">
+   <left>
+      <BorderPane prefHeight="800.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+         <center>
+            <ScrollPane prefHeight="800.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+               <content>
+                  <BorderPane prefHeight="800.0" prefWidth="300.0">
+                     <center>
+                        <Accordion fx:id="baccordina" prefHeight="800.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+               </content>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </ScrollPane>
+         </center>
+      </BorderPane>
+   </left>
+   <center>
+      <BorderPane prefHeight="800.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+         <left><BorderPane prefHeight="800.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+               <center><TreeView fx:id="youtrv" prefHeight="800.0" prefWidth="300.0" BorderPane.alignment="CENTER" /></center>
+            </BorderPane>
+         </left>
+         <center><BorderPane prefHeight="800.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <center><BorderPane prefHeight="800.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                     <center><WebView fx:id="webview" prefHeight="800.0" prefWidth="600.0" BorderPane.alignment="CENTER" /></center>
+                  </BorderPane>
+               </center>
+            </BorderPane>
+         </center>
+          <top><AnchorPane prefHeight="50.0" prefWidth="1000" BorderPane.alignment="CENTER">
+               <children>
+                  <AnchorPane layoutX="269.0" layoutY="-64.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Button fx:id="btnBf" layoutX="32.0" layoutY="11.0" mnemonicParsing="false" onAction="#onClickBtnBf" prefHeight="29.0" prefWidth="153.0" text="이전 주" />
+                        <Button fx:id="btnAf" layoutX="619.0" layoutY="11.0" mnemonicParsing="false" onAction="#onClickBtnAf" prefHeight="29.0" prefWidth="159.0" text="이번 주" />
+                        <Label   fx:id="lbbill"  alignment="CENTER" layoutX="201.0" layoutY="9.0" prefHeight="36.0" prefWidth="407.0" text="Billboard Chat HOT 100" textAlignment="CENTER">
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children></AnchorPane>
+         </top>
+      </BorderPane>
+   </center>
+   
+</BorderPane>

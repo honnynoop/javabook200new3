@@ -1,0 +1,118 @@
+001: package kr.co.infopub.chapter.s093;
+002: import java.io.IOException;
+003: import java.util.ArrayList;
+004: import org.jsoup.Jsoup;
+005: import org.jsoup.nodes.Document;
+006: import org.jsoup.nodes.Element;
+007: import org.jsoup.select.Elements;
+008: //2018-09-05 modified 3rd
+009: public class RequestFromBillboardHot {
+010: 	boolean isConnection=false;
+011: 	ArrayList<Billbaord> billboards=new ArrayList<Billbaord>();
+012: 	public ArrayList<Billbaord> getBillboards() {
+013: 		return billboards;
+014: 	}
+015: 	public RequestFromBillboardHot(){
+016: 		billboards.clear();
+017: 	}
+018: 	public synchronized void getBillboardData(String newUrls){
+019: 		 billboards.clear();
+020: 		 Document doc=null;
+021: 		 String fnames="billboard/";
+022: 		 String ss="";
+023: 	     try {
+024: 	    	 doc = Jsoup.connect(newUrls).get(); //GET
+025: 	    	 String firstsong="";
+026: 	    	 String firstartist="";
+027: 	    	 //첫번째 엘리먼트 
+028: 	    	 //<div class='chart-number-one__title'>text</div>
+029: 	    	 Element firsttitle = doc.select("div.chart-number-one__title").first();
+030: 	    	 firstsong=firsttitle.text();
+031: 	    	 //System.out.println("1--------------"+firstsong);
+032: 	    	 //<div class='chart-number-one__artist'>text</div>
+033: 	    	 Element efirstartist = doc.select("div.chart-number-one__artist").first();
+034: 	    	 firstartist=efirstartist.text();
+035: 	    	 //System.out.println("2--------------"+firstartist);
+036: 	    	 
+037: 	    	 Billbaord board=new Billbaord(
+038: 	 				1, replace(firstsong),
+039: 	 				0, //1등은 지난 주를 찾기힘듬
+040: 	 				"", replace(firstartist), replace(firstartist));
+041: 	 		        billboards.add(board);
+042: 	 		        
+043:              //div.chart-list-item 모든 엘리먼트
+044: 	 		 //<div class='chart-list-item'>  </div> 여러개 
+045: 	    	 Elements links = doc.select("div.chart-list-item");
+046: 	         for (Element link : links) {
+047: 	        	 Element erank=link.selectFirst("div.chart-list-item__rank");
+048: 	             String srank=erank.text();
+049: 	             //<span class='chart-list-item__title-text'>text</div>
+050: 	             Element esong=link.selectFirst("span.chart-list-item__title-text");
+051: 	             String song=esong.text();
+052: 	             //<div class="chart-list-item__artist">text</div>
+053: 	             Element eartist=link.selectFirst("div.chart-list-item__artist");
+054: 	             String artist=eartist.text();
+055: 	             String lastweek="101";  //100위권이 아니면  101로
+056: 	             try{
+057: 	            	 //<div class="chart-list-item__last-week">text</div>
+058: 	            	 Element estate=link.selectFirst("div.chart-list-item__last-week");
+059: 	            	 if(estate!=null){  // 지난주 랭킹이 있다. 
+060: 	            		 lastweek=__toStr(estate.text());
+061: 	            	 }
+062: 	             }catch(Exception ee){
+063: 	            	 System.out.println(ee);
+064: 	             }
+065: 	             // Billbaord DTO에 파싱해서 얻은 정보 저장
+066: 	             Billbaord board1=new Billbaord(
+067: 	 	 				toInt(srank), replace(song),
+068: 	 	 				toInt(lastweek), //1등은 지난 주를 찾기힘듬
+069: 	 	 				"", replace(artist), replace(artist));
+070: 	 	 		        billboards.add(board1);	 	 		     
+071: 	         }
+072: 	     } catch (IOException e) {
+073: 			System.out.println(e);
+074: 		 }
+075: 	}
+076: 	public String replace(String msg){
+077: 		String ss=msg;
+078: 		ss=ss.replaceAll("&#039;", "'");
+079: 		ss=ss.replaceAll("&amp;", "&");
+080: 		ss=ss.replaceAll("&quot;", "\"");
+081: 		return ss.trim();
+082: 	}
+083: 	private String __toStr(String lastweek){
+084: 		return lastweek.contains("-")?101+"":lastweek;
+085: 	}
+086: 	private int toInt(String msg){
+087: 		return Integer.parseInt(msg==null ?"-1":msg.trim());
+088: 	}
+089: 	public String toArtis(String msg){
+090: 		return msg.replaceAll("-", " ");
+091: 	}
+092: 	public void printBillboard(){
+093: 		for (Billbaord dto : billboards) {
+094: 			System.out.println(dto);
+095: 		}
+096: 	}
+097:     //<button class='chart-detail-header__date-selector-button'>
+098: 	//===> button.chart-detail-header__date-selector-button
+099: 	public String getTimeDate(String aurl) {
+100: 		Document doc;
+101: 		String sdate=null;
+102: 	    try {
+103: 	        doc = Jsoup.connect(aurl).get();
+104: 	        Element first = doc.select("button.chart-detail-header__date-selector-button").first();
+105: 	        sdate=first.text(); // September 15, 2018
+106: 	    } catch (IOException e) {
+107: 	        System.out.println(e);
+108: 	    }
+109: 		return sdate!=null?RestDay.toDay(sdate): RestDay.saturday();
+110: 	}
+111: 	public static void main(String[] args) {
+112: 		RequestFromBillboardHot rfw=new RequestFromBillboardHot();
+113: 		String a="https://www.billboard.com/charts/hot-100/";
+114: 		String rs=rfw.getTimeDate(a);
+115: 		rfw.getBillboardData(a+rs);
+116:         rfw.printBillboard();
+117: 	}
+118: }

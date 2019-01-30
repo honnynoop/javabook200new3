@@ -1,0 +1,34 @@
+01: package kr.co.infopub.chapter.s096;
+02: import org.jdom2.input.SAXBuilder;
+03: import java.util.List;
+04: import org.jdom2.Document;
+05: import org.jdom2.Element;
+06: // jdom
+07: public class BillboardMain9 {
+08: 	public static void main(String[] args) {
+09: 		 //2018-01-15 세줄 추가 /이번주 빌보드
+10: 		RequestFromBillboardHot rfw=new RequestFromBillboardHot();
+11: 		String a="https://www.billboard.com/charts/hot-100/";
+12: 		String rs=rfw.getTimeDate(a);
+13: 		
+14: 		SAXBuilder builder = new SAXBuilder();
+15:         Document document = null;
+16:     	try {
+17:     		document= builder.build("billboard\\"+rs+".xml");
+18:     		 Element root = document.getRootElement();
+19:     		 List<Element> billboards = root.getChildren("billboard");
+20:     		 for (Element ele: billboards) {
+21:     			String rank=ele.getChildText("rank");
+22:     			String song=ele.getChildText("song");
+23:     			String lastweek=ele.getChildText("lastweek");
+24:     			String imagesrc=ele.getChildText("imagesrc");
+25:     			String artist=ele.getChildText("artist");
+26:     			String sf=String.format("%s, %s, %s, %s, %s",
+27:     					rank, song,lastweek,imagesrc,artist);
+28:     			System.out.println(sf);
+29: 			 }
+30:     	}catch (Exception e) {
+31: 			System.out.println( e);
+32: 		}
+33: 	}
+34: }

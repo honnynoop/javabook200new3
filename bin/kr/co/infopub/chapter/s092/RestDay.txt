@@ -1,0 +1,105 @@
+001: package kr.co.infopub.chapter.s092;
+002: import java.text.ParseException;
+003: import java.text.SimpleDateFormat;
+004: import java.util.Calendar;
+005: import java.util.Date;
+006: import java.util.Locale;
+007: // s075 RestDay
+008: public class RestDay {
+009: 	public static void main(String[] args) {
+010: 		Calendar cal=Calendar.getInstance();
+011: 		int lastDay=cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+012: 		for (int i= 1; i <=lastDay; i++) {
+013: 			cal.set(Calendar.DAY_OF_MONTH, i);  //1일부터 마지막날까지 
+014: 			if(isRest(toYMD(cal))){             //휴일(토,일)확인
+015: 				System.out.println(toYMD(cal)+" is Rest Day.");
+016: 			}             
+017: 		}
+018: 		System.out.println(saturday("2018-09-12"));
+019: 		System.out.println(saturday("2018-09-13"));
+020: 		System.out.println(saturday("2018-09-14"));
+021: 		System.out.println(saturday("2018-09-15"));
+022: 		System.out.println(saturday("2018-09-16"));
+023: 		System.out.println(saturday());
+024: 		System.out.println(toDay("September 22, 2018"));
+025: 		System.out.println(toKorDay("9월 22, 2018"));
+026: 	}
+027: 	public static boolean isRest(String day){
+028: 		//토, 일만 쉬도록 
+029: 		boolean isRest=false;
+030: 		Calendar tod= todate(day);
+031: 		if(tod.get(Calendar.DAY_OF_WEEK)==Calendar.SATURDAY || 
+032: 				tod.get(Calendar.DAY_OF_WEEK)==Calendar.SUNDAY ){ //토요일 또는 일요일
+033: 			isRest=true;
+034: 		}
+035: 		return isRest;
+036: 	}
+037: 	public static String toYMD(Calendar dd){
+038: 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+039: 		return sdf.format(dd.getTime());
+040: 	}
+041: 	public static String goGo(String ss,int day){
+042: 		Calendar cal=todate(ss);
+043: 		//-7일을 더하면 일주전
+044: 		cal.add(Calendar.DAY_OF_YEAR, day);
+045: 		// 칼렌더를 문자열로 
+046: 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+047: 		return sdf.format(cal.getTime());
+048: 	}
+049: 	public static String toWantedDay(String ss,int round){
+050: 		return goGo(ss, -(round*7));
+051: 	}
+052: 	public static Calendar todate(String ss){
+053: 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+054: 		Date dd=new Date();
+055: 		try {
+056: 			dd=sdf.parse(ss);
+057: 		} catch (ParseException e) {
+058: 		}
+059: 		Calendar cal=Calendar.getInstance();
+060: 		cal.setTime(dd);
+061: 		return cal;
+062: 	}
+063: 	public static String toDay(String rs){  // September 22, 2018
+064: 		SimpleDateFormat sdf=new SimpleDateFormat("MMMM dd, yyyy",Locale.US);
+065: 		Date dd=new Date();
+066: 		try {
+067: 			dd=sdf.parse(rs);
+068: 		} catch (ParseException e) {
+069: 			System.out.println(e);
+070: 		}
+071: 		Calendar cal=Calendar.getInstance();
+072: 		cal.setTime(dd);
+073: 		return toYMD(cal);
+074: 	}
+075: 	public static String toKorDay(String rs){  // 8월 16, 2017
+076: 		SimpleDateFormat sdf=new SimpleDateFormat("MM월 dd, yyyy");
+077: 		//SimpleDateFormat sdf=new SimpleDateFormat("MMMM dd, yyyy",Locale.US);
+078: 		Date dd=new Date();
+079: 		try {
+080: 			dd=sdf.parse(rs);
+081: 		} catch (ParseException e) {
+082: 			System.out.println(e);
+083: 		}
+084: 		Calendar cal=Calendar.getInstance();
+085: 		cal.setTime(dd);
+086: 		return toYMD(cal);
+087: 	}
+088: 	//추가 2018-09-15
+089: 	//입력날과 같거나 큰 토요일 yyyy-MM-dd
+090: 	public static String saturday(String day){
+091: 		Calendar cal=todate(day);
+092: 		int i=0;
+093: 		for( ; i<7; i++){
+094: 			if(cal.get(Calendar.DAY_OF_WEEK)+i==Calendar.SATURDAY){
+095: 				break;
+096: 			}
+097: 		}
+098: 		cal.add(Calendar.DAY_OF_YEAR, i);
+099: 		return toYMD(cal);
+100: 	}
+101: 	public static String saturday(){
+102: 		Calendar cal=Calendar.getInstance();
+103: 		return saturday(toYMD(cal));
+104: 	}
+105: }

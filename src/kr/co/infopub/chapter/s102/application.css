@@ -1,0 +1,5 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.table-view  .table-cell {
+    -fx-alignment: CENTER-LEFT;
+    -fx-border-width: 0.083333em; 
+}

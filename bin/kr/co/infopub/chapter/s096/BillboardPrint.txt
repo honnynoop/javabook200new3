@@ -1,0 +1,98 @@
+01: package kr.co.infopub.chapter.s096;
+02: import java.io.FileWriter;
+03: import java.io.IOException;
+04: import java.io.PrintWriter;
+05: import java.util.List;
+06: public class BillboardPrint {
+07: /*	public static void printToHTML(List<String> slist, String fname){
+08: 		try (PrintWriter pw=new PrintWriter(new FileWriter(fname,false),true)){
+09: 				for(String sts : slist){
+10: 					pw.println(sts);
+11: 				}
+12: 		} catch (IOException e) {
+13: 		}
+14: 	}
+15: 	public static void printToCSV(List<Billbaord> bblist, String fname) {
+16: 		try (PrintWriter pw=new PrintWriter(new FileWriter(fname,false),true)){
+17: 			for(Billbaord bb : bblist){
+18: 				pw.println(bb);
+19: 			}
+20: 		} catch (IOException e) {
+21: 		}
+22: 	}
+23: 	public static void printToJSON(List<Billbaord> bblist, String fname){
+24: 		try (PrintWriter pw=new PrintWriter(new FileWriter(fname,false),true)){
+25: 			pw.println("{\"billboard\": [");
+26: 			for(int i=0; i<bblist.size()-1 ;i++){
+27: 				Billbaord bb=bblist.get(i);
+28: 				pw.println(pair(bb)+",");
+29: 			}
+30: 			pw.println(pair(bblist.get(bblist.size()-1 )));
+31: 			pw.println("]}");
+32: 		} catch (IOException e) {
+33: 		}
+34: 	}
+35: 	public static void printToObject(List<Billbaord> bblist, String fname) {
+36: 		try (PrintWriter pw=new PrintWriter(new FileWriter(fname,false),true)){
+37: 			for(Billbaord bb : bblist){
+38: 					pw.println(String.format("Billbaord b%d =new Billbaord(%d,\"%s\","
+39: 							+ "%d,\"%s\",\"%s\");", 
+40: 					bb.getRank(), bb.getRank(), bb.getSong(),
+41: 					bb.getLastweek(),bb.getImagesrc(),bb.getArtist()));
+42: 				}
+43: 		} catch (IOException e) {
+44: 		}
+45: 	}*/
+46: 	public static void printToXML(List<Billbaord> bblist, String fname){
+47: 		try (PrintWriter pw=new PrintWriter(new FileWriter(fname,false),true)){
+48: 			pw.println("<?xml version='1.0' encoding='utf-8'?>");
+49: 			pw.println("<billboards>");
+50: 			for(Billbaord bb : bblist){
+51: 					pw.println(pairxs(bb));
+52: 			}
+53: 			pw.println("</billboards>");
+54: 		} catch (IOException e) {
+55: 		}
+56: 	}
+57: 	private static String rp(String msg){
+58: 		String st=msg;
+59: 		st=st.replaceAll("&", "&amp;");
+60: 		st=st.replaceAll(">", "&gt;");
+61: 		st=st.replaceAll("<", "&lt;");
+62: 		st=st.replaceAll("\'", "&apos;");
+63: 		st=st.replaceAll("\"", "&quot;");
+64: 		return st;
+65: 	}
+66: 	// <key>value</key>
+67: 	private static String pairx(String key, String value){
+68: 		String ss=String.format("<%s>%s</%s>", key,value,key);
+69: 		return ss;
+70: 	}
+71: 	private static String pairxs(Billbaord bb){
+72: 		String rank=pairx("rank",rp(bb.getRank()+""));
+73: 		String song=pairx("song",rp(bb.getSong()+""));
+74: 		String lastweek=pairx("lastweek",rp(bb.getLastweek()+""));
+75: 		String imagesrc=pairx("imagesrc",rp(bb.getImagesrc()+""));
+76: 		String artist=pairx("artist",rp(bb.getArtist()+""));
+77: 		return String.format("<billboard>\n%s %s %s %s %s\n</billboard>",
+78: 				rank, song,lastweek,imagesrc,artist);
+79: 	}
+80: 	/*private static String pair(Billbaord bb){
+81: 		String rank=pair("rank",bb.getRank()+"");
+82: 		String song=pair("song",bb.getSong()+"");
+83: 		String lastweek=pair("lastweek",bb.getLastweek()+"");
+84: 		String imagesrc=pair("imagesrc",bb.getImagesrc()+"");
+85: 		String artist=pair("artist",bb.getArtist()+"");
+86: 		return String.format("{%s,%s,%s,%s,%s}",rank, song,lastweek,imagesrc,artist);
+87: 	}
+88: 	// "key":"value"
+89: 	private static String pair(String key, String value){
+90: 		String ss=String.format("\"%s\":\"%s\"", key,value);
+91: 		return ss;
+92: 	}
+93: 	// {"key":"value"}
+94: 	private static String pairs(String key, String value){
+95: 		String ss=String.format("{\"%s\":\"%s\"}", key,value);
+96: 		return ss;
+97: 	}*/
+98: }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="800.0" prefWidth="1000" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kr.co.infopub.chapter.s101.BillboardfxController">
+   <center>
+      <BorderPane prefHeight="600.0" prefWidth="1000" BorderPane.alignment="CENTER">
+         <center>
+            <BorderPane prefHeight="750.0" prefWidth="600" BorderPane.alignment="CENTER">
+               <center>
+                  <TableView fx:id="billobardTable" editable="true" prefHeight="600.0" prefWidth="600" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+                      <columns>
+                          <TableColumn fx:id="rank" prefWidth="100" text="Rank" />
+                          <TableColumn fx:id="artist" prefWidth="200" text="Artist" />
+                        <TableColumn fx:id="song" prefWidth="300" text="Song" />
+                        <TableColumn fx:id="imagesrc" prefWidth="100" text="Image" />
+                          <TableColumn fx:id="lastweek" prefWidth="100" text="Lastweek" />
+                      </columns>
+                    </TableView>
+               </center>
+            </BorderPane>
+         </center>
+         <top>
+            <AnchorPane prefHeight="50.0" prefWidth="1000" BorderPane.alignment="CENTER">
+               <children>
+                  <AnchorPane layoutX="269.0" layoutY="-64.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Button fx:id="btnBf" layoutX="32.0" layoutY="11.0" mnemonicParsing="false" onAction="#onClickBtnBf" prefHeight="29.0" prefWidth="153.0" text="이전 주" />
+                        <Button fx:id="btnAf" layoutX="619.0" layoutY="11.0" mnemonicParsing="false" onAction="#onClickBtnAf" prefHeight="29.0" prefWidth="159.0" text="이번 주" />
+                        <Label   fx:id="lbbill"  alignment="CENTER" layoutX="201.0" layoutY="9.0" prefHeight="36.0" prefWidth="407.0" text="Billboard Chat HOT 100" textAlignment="CENTER">
+                           <font>
+                              <Font name="Arial Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children></AnchorPane>
+         </top>
+      </BorderPane>
+   </center>
+   <right>
+      <WebView fx:id="billwebview" prefWidth="400" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>

@@ -1,0 +1,45 @@
+01: package kr.co.infopub.chapter.s094;
+02: import java.io.FileReader;
+03: import java.io.BufferedReader;
+04: // csv
+05: public class BillboardMain7 {
+06: //rank=1 -> 1
+07:  public static String cut(String msg){
+08: 	String val=msg.substring(msg.indexOf("=")+1);
+09: 	return val;
+10:  }
+11: /*	
+12:    String[] msgs={"rank=1", 
+13: 	"song=Despacito", 
+14: 	"lastweek=1", 
+15: 	"imagesrc=http://www.billboard.com/images/pref_images/q61808osztw.jpg", 
+16: 	"artist=luis fonsi"}
+17: */
+18:  public static void show(String msg){
+19: 	System.out.println("-------------------------------------");
+20: 	String[] msgs=msg.split(", ");
+21: 	String rank=cut(msgs[0]).trim();
+22: 	String song=cut(msgs[1]).trim();
+23: 	String lastweek=cut(msgs[2]).trim();
+24: 	String imagesrc=cut(msgs[3]).trim();
+25: 	String artist=cut(msgs[4]).trim();
+26: 	String sf=String.format("%s, %s, %s, %s, %s",rank, song,lastweek,imagesrc,artist);
+27: 	System.out.println(sf);
+28:  }
+29:  
+30:  public static void main(String[] args) {
+31: 	RequestFromBillboardHot rfw=new RequestFromBillboardHot();
+32: 	String a="https://www.billboard.com/charts/hot-100/";
+33: 	String rs=rfw.getTimeDate(a);
+34: 	BufferedReader br=null;
+35: 	try {
+36: 		br=new BufferedReader(new FileReader("billboard\\"+rs+".csv"));
+37: 		String msg="";
+38: 		while((msg=br.readLine())!=null){
+39: 		    show(msg);
+40: 		}
+41: 	} catch (Exception e) {
+42: 		System.out.println(e);
+43: 	}
+44:  }
+45: }

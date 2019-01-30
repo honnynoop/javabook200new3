@@ -1,0 +1,13 @@
+01: package kr.co.infopub.chapter.s094;
+02: public class BillboardMain6 {
+03: 	public static void main(String[] args) {
+04: 		RequestFromBillboardHot rfw=new RequestFromBillboardHot();
+05: 		String a="https://www.billboard.com/charts/hot-100/";
+06: 		String rs=rfw.getTimeDate(a);
+07: 		rfw.getBillboardData(a+rs);
+08: 		rfw.printBillboard();
+09: 		BillboardPrint.printToCSV(rfw.getBillboards(), "billboard\\"+rs+".csv");
+10: 		//BillboardPrint.printToJSON(rfw.getBillboards(), "billboard\\"+rs+".json");
+11: 		//BillboardPrint.printToXML(rfw.getBillboards(), "billboard\\"+rs+".xml");
+12: 	}
+13: }

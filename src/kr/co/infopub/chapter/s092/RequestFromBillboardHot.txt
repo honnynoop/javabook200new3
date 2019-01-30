@@ -1,0 +1,78 @@
+01: package kr.co.infopub.chapter.s092;
+02: import java.io.BufferedReader;
+03: import java.io.File;
+04: import java.io.FileReader;
+05: import java.io.IOException;
+06: import java.util.ArrayList;
+07: import org.jsoup.Jsoup;
+08: import org.jsoup.nodes.Document;
+09: import org.jsoup.nodes.Element;
+10: public class RequestFromBillboardHot {
+11:  ArrayList<String> htmls=new ArrayList<String>();
+12:  boolean isConnection=false;
+13:  public RequestFromBillboardHot() {
+14: 	htmls.clear();
+15:  }
+16:  public void getAllHtml(String newUrls){
+17: 	htmls.clear();
+18: 	try {
+19: 		// 주소지에 빨대 꽂기
+20: 		BufferedReader reader = new BufferedReader(  
+21: 	              new FileReader(newUrls));
+22: 		String line = "";
+23: 		while ((line = reader.readLine()) != null){
+24: 			if(!line.trim().equals("")){
+25: 				htmls.add(line.trim());
+26: 			}
+27: 		}
+28: 		isConnection=true;    // 읽기 성공
+29: 	} catch (Exception e) {
+30: 		isConnection = false; // 읽기 실패
+31: 		System.out.println("Billboard Parsing error !!! ");
+32: 	} 
+33:  }
+34:  public void printHtml(){
+35: 	for (String ss : htmls) {
+36: 		System.out.println(ss);
+37: 	}
+38:  }
+39:  //<button class="chart-detail-header__date-selector-button"> 
+40:  //September 15, 2018 
+41:  //<span class="chart-detail-header__date-selector-caret fa fa-caret-down">
+42:  //</span> </button>
+43:  //에서 September 15, 2018을 얻고 2018-09-15로 변환
+44:  public String getTimeDate(String aurl) {
+45: 	Document doc;
+46: 	String sdate=null;
+47:     try {
+48:         doc = Jsoup.connect(aurl).get();
+49:         Element first = doc
+50:           .select("button.chart-detail-header__date-selector-button")
+51:           .first();
+52:         sdate=first.text(); // September 15, 2018
+53:     } catch (IOException e) {
+54:         System.out.println(e);
+55:     }
+56: 	return sdate!=null?
+57: 			RestDay.saturday(sdate): RestDay.saturday();
+58:  }
+59:  public static void main(String[] args) {
+60: 	RequestFromBillboardHot rfw=new RequestFromBillboardHot();
+61: 	String a="https://www.billboard.com/charts/hot-100/";
+62: 	String rs=rfw.getTimeDate(a);
+63: 	System.out.println("이번 주 "+rs);
+64: 	//rs=RestDay.toWantedDay(rs, 1);  //1주전
+65: 	String fnames="billboard/"+rs+".html";
+66: 	//-----여기서 
+67: 	File f=new File(fnames);
+68: 	BillboardDriver billdriver=null;
+69: 	if(!f.exists()){   //파일이 존재하지 않으면
+70: 		billdriver=new BillboardDriver();
+71: 		fnames=billdriver.saveBillboard100(rs,a);
+72: 	}
+73: 	//-----여기까지 추가
+74: 	System.out.println(fnames);
+75: 	rfw.getAllHtml(fnames);
+76: 	rfw.printHtml();
+77:  }
+78: }
